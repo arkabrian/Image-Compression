@@ -24,14 +24,23 @@ entity downscale is
 end entity downscale;
 
 architecture rtl of downscale is
-  signal sum : std_logic_vector(7 downto 0);
-  signal average : std_logic_vector(7 downto 0);
+  signal r_sum : std_logic_vector(7 downto 0);
+  signal g_sum : std_logic_vector(7 downto 0);
+  signal b_sum : std_logic_vector(7 downto 0);
 
   signal r_avg : std_logic_vector(7 downto 0);
   signal g_avg : std_logic_vector(7 downto 0);
   signal b_avg : std_logic_vector(7 downto 0);
+
+  signal h_out : integer;
+  signal w_out : integer;
+
 begin
 
-  --For Loop
+  process(clk)
+  begin
+    
+  end process;
+
 
 end architecture;
