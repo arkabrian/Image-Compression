@@ -24,7 +24,7 @@ architecture sim of grayscale_tb is
   type image_type is array (integer range <>) of row_pointer;
   type image_pointer is access image_type;
 
-  -- DUT signals
+  -- UUT signals
   signal r_in : std_logic_vector(7 downto 0);
   signal g_in : std_logic_vector(7 downto 0);
   signal b_in : std_logic_vector(7 downto 0);
@@ -44,7 +44,7 @@ architecture sim of grayscale_tb is
 
 begin
 
-  DUT :entity work.grayscale(rtl)
+  UUT :entity work.grayscale(rtl)
   port map (
     clk => clk,
     r_in => r_in,
@@ -68,6 +68,7 @@ begin
     variable char : character;
   begin
 
+    --Baca header
     for i in header_type'range loop
       read(bmp_file, header(i));
     end loop;
@@ -75,10 +76,12 @@ begin
     PresentState <= 0;
     NextState <= 1;
 
+    --Cek header, jika bukan BMP, keluar
     assert header(0) = 'B' and header(1) = 'M'
       report "NOT A BMP FILE"
       severity failure;
 
+    --Cek header, jika bukan 54-byte, keluar
     assert character'pos(header(10)) = 54 and
       character'pos(header(11)) = 0 and
       character'pos(header(12)) = 0 and
@@ -86,6 +89,7 @@ begin
       report "Header is not 54 bytes"
       severity failure;
 
+    --Cek header, jika bukan 40-byte dib header, keluar
     assert character'pos(header(14)) = 40 and
       character'pos(header(15)) = 0 and
       character'pos(header(16)) = 0 and
@@ -93,19 +97,19 @@ begin
       report "DIB headers size is not 40 bytes"
       severity failure;
 
-    assert character'pos(header(26)) = 1 and
-      character'pos(header(27)) = 0
-      report "Color planes is not 1" severity failure;
-
+    --Cek header, jika bukan 24-bit dib header, keluar
     assert character'pos(header(28)) = 24 and
       character'pos(header(29)) = 0
       report "Bits per pixel is not 24" severity failure;
 
+    --Dapatkan ukuran gambar
+    --Lebar
     image_width := character'pos(header(18)) +
       character'pos(header(19)) * 2**8 +
       character'pos(header(20)) * 2**16 +
       character'pos(header(21)) * 2**24;
 
+    --Tinggi
     image_height := character'pos(header(22)) +
       character'pos(header(23)) * 2**8 +
       character'pos(header(24)) * 2**16 +
@@ -114,32 +118,42 @@ begin
     report "image_width: " & integer'image(image_width) &
       ", image_height: " & integer'image(image_height);
 
+    --Padding didapat dengan 4 - (lebar * 3) mod 4
     padding := (4 - image_width*3 mod 4) mod 4;
 
+    --Untuk persiapan menulis ke image output
     image := new image_type(0 to image_height - 1);
 
     PresentState <= 1;
     NextState <= 2;
+
+    --Baca pixel dalam tinggi gambar
     for row_i in 0 to image_height - 1 loop
 
+      --Buat row baru
       row := new row_type(0 to image_width - 1);
 
+      --Baca pixel dalam tinggi gambar
       for col_i in 0 to image_width - 1 loop
 
+        --Baca pixel biru
         read(bmp_file, char);
         row(col_i).blue :=
           std_logic_vector(to_unsigned(character'pos(char), 8));
 
+        --Baca pixel hijau
         read(bmp_file, char);
         row(col_i).green :=
           std_logic_vector(to_unsigned(character'pos(char), 8));
 
+        --Baca pixel merah
         read(bmp_file, char);
         row(col_i).red :=
           std_logic_vector(to_unsigned(character'pos(char), 8));
 
       end loop;
 
+      --Baca padding
       for i in 1 to padding loop
         read(bmp_file, char);
       end loop;
@@ -168,6 +182,7 @@ begin
     PresentState <= 2;
     nextstate <= 0;
 
+    --Tulis header ke file output
     for i in header_type'range loop
       write(out_file, header(i));
     end loop;
@@ -177,12 +192,15 @@ begin
 
       for col_i in 0 to image_width - 1 loop
 
+        --Tulis pixel biru ke file output
         write(out_file,
           character'val(to_integer(unsigned(row(col_i).blue))));
 
+        --Tulis pixel hijau ke file output
         write(out_file,
           character'val(to_integer(unsigned(row(col_i).green))));
 
+        --Tulis pixel merah ke file output
         write(out_file,
           character'val(to_integer(unsigned(row(col_i).red))));
 
@@ -190,6 +208,7 @@ begin
 
       deallocate(row);
 
+      --Tulis padding ke file output
       for i in 1 to padding loop
         write(out_file, character'val(0));
       end loop;
