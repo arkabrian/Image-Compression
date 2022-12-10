@@ -1,11 +1,15 @@
-# Image-Compression
-Sebuah aplikasi yang diciptakan sebagai proyek akhir mata kuliah Perancangan Sistem Digital kelompok A7.
+# Image Grayscaller
+>This program is one of the requirements in fulfilling the task of Digital System Design for the Computer Engineering Department at the University of Indonesia.
 
-Aplikasi ini akan membuat sebuah image menjadi lebih kecil menggunakan metode yang mirip dengan Chroma Subsampling. 
-Pada dasarnya, sebuah image terdiri dari kumpulan beberapa pixel. Kemudian, program ini akan membagi rata pixel - pixel tersebut menjadi beberapa kelompok pixel. 
-Contoh, sebuah image 27 x 27 akan dibagi rata menjadi beberapa 3x3 pixel. Selanjutnya, program akan mencari nilai rata - rata dari semua pixel di kelompok tersebut
-dan menjadikannya satu pixel warna yang baru untuk dibentuk pada gambar baru. Hal ini akan diulang beberapa kali ke seluruh kelompok pixel untuk menciptakan gambar
-baru yang lebih kecil.
+## *BACKGROUND*
+Proyek ini berfungsi untuk mengubah image berbentuk bmp menjadi output berupa gambar dengan warna hitam putih berbentuk bmp. Image grayscaller sangat berguna dalam kehidupan sehari-hari. Salah satu contohnya adalah untuk mempermudah image processing. 
 
-Untuk memudahkan pembacaan image, maka format yang akan diterima hanya format BMP (Bitmap). Hal ini disebabkan format tersebut akan menyimpan RGB Value setiap pixelnya
-dalam bentuk binary. Hal ini tidak berlaku pada format lain seperti JPG/JPEG dan PNG yang telah terjadi kompresi sehingga RGB Value setiap pixel tidak bisa didapatkan.
+## *DESCRIPTIONS*
+Proyek akan menerima input berupa image dalam bentuk bmp. Gambar kemudian akan di cek oleh program apakah dia dalam format bmp atau tidak. Jika tidak, maka program akan error dan memberi peringatan. Jika iya, maka gambar akan di process pixel nya untuk mendapatkan tinggi dan lebar dari gambar. Kemudian gambar juga akan di proses untuk memperoleh rgb value. Rgb value tersebut akan diterima sebagai input 8 bit. Input tersebut berupa red, green, dan blue. Kemudian dari nilai-nilai tersebut, akan dihitung menggunakan sebuah formula yang bisa mengubah value-value tersebut menjadi bentuk hitam putih. 
+
+This program created by: 
+*Grup A7 PSD 01*
+1. Arka Brian Dewara                        (2106731421)
+2. Azzah Azkiyah Angeli Syahwa              (2106731390)
+3. Handaneswari Pramudhyta Imanda           (2106731346)
+4. Miranti Anggunsari                       (2106731472)
