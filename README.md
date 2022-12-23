@@ -7,6 +7,8 @@ Proyek ini berfungsi untuk mengubah image berbentuk bmp menjadi output berupa ga
 ## *DESCRIPTIONS*
 Proyek akan menerima input berupa image dalam bentuk bmp. Gambar kemudian akan di cek oleh program apakah dia dalam format bmp atau tidak. Jika tidak, maka program akan error dan memberi peringatan. Jika iya, maka gambar akan di process pixel nya untuk mendapatkan tinggi dan lebar dari gambar. Kemudian gambar juga akan di proses untuk memperoleh rgb value. Rgb value tersebut akan diterima sebagai input 8 bit. Input tersebut berupa red, green, dan blue. Kemudian dari nilai-nilai tersebut, akan dihitung menggunakan sebuah formula yang bisa mengubah value-value tersebut menjadi bentuk hitam putih. 
 
+LINK YOUTUBE: https://youtu.be/vyaK8_-9dR8
+
 This program created by: 
 *Grup A7 PSD 01*
 1. Arka Brian Dewara                        (2106731421)
